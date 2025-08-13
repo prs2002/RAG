@@ -50,6 +50,17 @@ export class ChatService {
 
       const context = relevantDocs.map(doc => doc.pageContent).join('\n\n');
       console.log(`Context length: ${context.length} characters`);
+      
+      // Log the context being used for response generation
+      console.log('\n=== CONTEXT FOR RESPONSE GENERATION ===');
+      console.log(`Using ${relevantDocs.length} document chunks as context`);
+      console.log(`Total context length: ${context.length} characters`);
+      console.log('Context preview (first 500 chars):');
+      console.log(context.substring(0, 500));
+      if (context.length > 500) {
+        console.log(`... (truncated, full context length: ${context.length} characters)`);
+      }
+      console.log('=== END CONTEXT ===\n');
 
       const chain = RunnableSequence.from([
         this.promptTemplate,

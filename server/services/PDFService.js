@@ -16,8 +16,18 @@ export class PDFService {
   async extractText(filePath) {
     try {
       const dataBuffer = fs.readFileSync(filePath);
-      const data = await pdfParse.default(dataBuffer);
+      const data = await parser.default(dataBuffer);
       console.log(`Extracted ${data.text.length} characters from PDF`);
+      
+      // Log the first 500 characters of extracted text for debugging
+      const previewText = data.text.substring(0, 500);
+      console.log('=== PDF EXTRACTED TEXT PREVIEW ===');
+      console.log(previewText);
+      if (data.text.length > 500) {
+        console.log(`... (truncated, total length: ${data.text.length} characters)`);
+      }
+      console.log('=== END PDF TEXT PREVIEW ===');
+      
       return data.text;
     } catch (error) {
       console.error('Error extracting text from PDF:', error);

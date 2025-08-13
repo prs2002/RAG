@@ -96,10 +96,21 @@ export class VectorStoreService {
         console.log(`Fallback search found ${fallbackResults.length} documents`);
         return fallbackResults;
       }
-      // Debug: log the content of retrieved documents
+      
+      // Enhanced logging for retrieved relevant documents
+      console.log('\n=== RETRIEVED RELEVANT DOCUMENTS ===');
       results.forEach((doc, index) => {
-        console.log(`Document ${index + 1} preview: ${doc.pageContent.substring(0, 200)}...`);
+        console.log(`\n--- Document ${index + 1} ---`);
+        console.log(`Source: ${doc.metadata.source}`);
+        console.log(`Chunk ID: ${doc.metadata.chunkId}`);
+        console.log(`Timestamp: ${doc.metadata.timestamp}`);
+        console.log(`Content Preview: ${doc.pageContent.substring(0, 300)}...`);
+        console.log(`Full Content Length: ${doc.pageContent.length} characters`);
+        if (doc.pageContent.length > 300) {
+          console.log(`... (truncated for preview)`);
+        }
       });
+      console.log('=== END RETRIEVED DOCUMENTS ===\n');
 
       return results;
     } catch (error) {
